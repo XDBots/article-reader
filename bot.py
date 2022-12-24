@@ -19,7 +19,7 @@ def send_welcome(message):
 
 #Handle '/tts'
 @bot.message_handler(commands=['tts'])
-def echo_message(message):
+def textToSpeech(message):
     url = message.text
     modified_url = isValidURL(url)
     
@@ -38,15 +38,15 @@ def echo_message(message):
         if result == True:
 
             chat_id = message.chat.id
-            short_title = title[:16]
+            
 
-            audio = open(short_title + '.mp3', 'rb')
+            audio = open("audio.mp3", 'rb')
             #bot.send_audio(chat_id, audio)
             bot.send_audio(chat_id, audio,  performer='Article Reader', title=title)
             print("Sent successfully")
             audio.close()
             if True:
-                os.remove(short_title + ".mp3")
+                os.remove("audio.mp3")
             
         else:
             bot.reply_to(message, "Sorry, Can't Process this Article")

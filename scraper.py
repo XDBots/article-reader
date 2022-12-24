@@ -1,7 +1,16 @@
 from newspaper import Article
+from decouple import config
+
+HTTP_PROXY = config("HTTP_PROXY")
+HTTPS_PROXY = config("HTTPS_PROXY")
 
 
-def getArticleContent(url): 
+def getArticleContent(url):
+    if HTTP_PROXY is not None and HTTPS_PROXY is not None:
+        article = Article(url, proxies={
+            "http": HTTP_PROXY,
+            "https": HTTPS_PROXY })
+
     article = Article(url)
     article.download()
     article.parse()
@@ -14,9 +23,8 @@ from gtts import gTTS
 def tts(title, content):
     if True:
         try:
-            short_title = title[:16]
             tts = gTTS(title +"."+ content)
-            tts.save(short_title + ".mp3")
+            tts.save("audio.mp3")
             return True
         except: 
             print("try again...")
