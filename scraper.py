@@ -6,26 +6,36 @@ HTTPS_PROXY = config("HTTPS_PROXY")
 
 
 def getArticleContent(url):
-    if HTTP_PROXY is not None and HTTPS_PROXY is not None:
-        article = Article(url, proxies={
-            "http": HTTP_PROXY,
-            "https": HTTPS_PROXY })
+    try:
+        article = Article(url)
+        article.download()
+    except Exception as e:
+        print(e)
+        if HTTP_PROXY != None and HTTPS_PROXY != None:
+            try:
+                article = Article(url, proxies={
+                    "http": HTTP_PROXY,
+                    "https": HTTPS_PROXY })
+                article.download()
+            except Exception as e:
+                return None
+        else:
+            return None
 
-    article = Article(url)
-    article.download()
     article.parse()
     title = article.title
     content = article.text
     return title, content
+        
+        
 
 
 from gtts import gTTS
 def tts(title, content):
-    if True:
         try:
             tts = gTTS(title +"."+ content)
             tts.save("audio.mp3")
             return True
         except: 
-            print("try again...")
+            print("try again...TTS")
             return False
