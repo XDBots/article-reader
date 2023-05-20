@@ -56,5 +56,4 @@ def textToSpeech(message):
         else:
             bot.reply_to(message, "Sorry, Can't Process this Article")
 
-
-bot.polling()
+bot.polling(none_stop=True, timeout=123)
