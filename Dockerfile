@@ -1,20 +1,18 @@
-FROM ubuntu:latest
+# Use an official Python runtime as the base image
+FROM python:3.9
 
-RUN apt update
-RUN apt install python3 -y
-RUN apt install python3-pip -y
+# Set the working directory in the container
+WORKDIR /app
 
-WORKDIR /usr/app/src
+# Copy the Python requirements file to the container
+COPY requirements.txt .
 
-COPY requirements.txt ./
-RUN pip install -r requirements.txt
+# Install the Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
-#add Your bot token here -
-ENV BOT_TOKEN=ENTER_YOUR_BOT_TOKEN__
+# Copy the Python script to the container
+COPY bot.py .
 
-#optional - 
-ENV HTTP_PROXY=None
-ENV HTTPS_PROXY=None
+# Run the Python script when the container launches
+CMD ["python", "bot.py"]
 
-COPY . /usr/app/src
-CMD python3 bot.py
