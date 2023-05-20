@@ -57,4 +57,4 @@ def textToSpeech(message):
             bot.reply_to(message, "Sorry, Can't Process this Article")
 
 
-bot.infinity_polling()
+bot.polling()
